@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <!-- <rosparam command="load" file="$(find bag_time_shift)/config/config.yaml"/> -->
+  <node pkg="type_changer_sim" name="type_changer_sim" type="type_change_sim" />
+   <!-- <remap from="~input" to="top/outlier_filtered/pointcloud" /> -->
+
+</launch>
