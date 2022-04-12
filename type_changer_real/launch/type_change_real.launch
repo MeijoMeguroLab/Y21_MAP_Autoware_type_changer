@@ -4,20 +4,24 @@
 
   <arg name="sub_lidar_topic_name" default="/velodyne_packets"/>
   <arg name="sub_twist_topic_name" default="/can_twist"/>
-  <remap from="sub_imu_topic_name" to="/imu/data_raw" />
+  <arg name="sub_imu_topic_name" default="/imu/data_raw"/>
+  <arg name="reverse_imu" default="false"/>
+
   <remap from="sub_gnss_topic_name" to="/navsat/fix" />
 
   <arg name="pub_lidar_topic_name" default="/sensing/lidar/top/velodyne_packets"/>
   <arg name="pub_twist_topic_name" default="/vehicle/status/twist"/>
+  <arg name="pub_imu_topic_name" default="/sensing/imu/imu_data"/>
 
   <param name="sub_lidar_topic_name" value="$(arg sub_lidar_topic_name)"/>
   <param name="sub_twist_topic_name" value="$(arg sub_twist_topic_name)"/>
+  <param name="sub_imu_topic_name" value="$(arg sub_imu_topic_name)"/>
   <param name="pub_lidar_topic_name" value="$(arg pub_lidar_topic_name)"/>
   <param name="pub_twist_topic_name" value="$(arg pub_twist_topic_name)"/>
+  <param name="pub_imu_topic_name" value="$(arg pub_imu_topic_name)"/>
+  <param name="reverse_imu" value="$(arg reverse_imu)"/>
 
   <node pkg="type_changer_real" name="type_changer_real" type="type_changer_real"/>
-  <!-- <node pkg="topic_tools" type="relay" name="twist_relay" args="sub_twist_topic_name /vehicle/status/twist" /> -->
-  <node pkg="topic_tools" type="relay" name="imu_relay" args="sub_imu_topic_name /sensing/imu/imu_data" />
   <node pkg="topic_tools" type="relay" name="gnss_relay" args="sub_gnss_topic_name /sensing/gnss/nav_sat_fix" />
 
 </launch>
