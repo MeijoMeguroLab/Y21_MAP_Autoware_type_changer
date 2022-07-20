@@ -17,6 +17,7 @@ static std::string sub_imu_topic_name;
 static std::string pub_imu_topic_name;
 ros::Publisher imu_pub;
 bool reverse_imu = false;
+double velocity_scale_factor = 1.0;
 
 void packetsCallback(const velodyne_msgs::VelodyneScan::ConstPtr& msg) {
   velodyne_msgs::VelodyneScan velodyne_packets;
@@ -29,13 +30,14 @@ void twistCallback(const geometry_msgs::TwistStamped::ConstPtr& msg) {
   geometry_msgs::TwistStamped twist;
   twist = *msg;
   twist.header.frame_id = "base_link";
+  twist.twist.linear.x = twist.twist.linear.x * velocity_scale_factor;
   twist_pub.publish(twist);
 }
 
 void imuCallback(const sensor_msgs::Imu::ConstPtr& msg) {
   sensor_msgs::Imu imu;
   imu = *msg;
-  if(reverse_imu){
+  if(!reverse_imu){
     imu_pub.publish(imu);
   }else{
     imu.angular_velocity.z =  -1 * imu.angular_velocity.z;
@@ -54,6 +56,7 @@ int main(int argc, char **argv) {
   n.getParam("pub_twist_topic_name",pub_twist_topic_name);
   n.getParam("pub_imu_topic_name",pub_imu_topic_name);
   n.getParam("reverse_imu",reverse_imu);
+  n.getParam("velocity_scale_factor",velocity_scale_factor);
 
   std::cout<< "sub_lidar_topic_name "<<sub_lidar_topic_name<<std::endl;
   std::cout<< "sub_twist_topic_name "<<sub_twist_topic_name<<std::endl;
@@ -61,7 +64,7 @@ int main(int argc, char **argv) {
   std::cout<< "pub_lidar_topic_name "<<pub_lidar_topic_name<<std::endl;
   std::cout<< "pub_twist_topic_name "<<pub_twist_topic_name<<std::endl;
   std::cout<< "pub_imu_topic_name "<<pub_imu_topic_name<<std::endl;
-  std::cout<< "reverse_imu "<<reverse_imu<<std::endl;
+  std::cout<< "velocity_scale_factor "<<velocity_scale_factor<<std::endl;
 
   ros::Subscriber packets_sub = n.subscribe(sub_lidar_topic_name, 10, packetsCallback);
   ros::Subscriber twist_sub = n.subscribe(sub_twist_topic_name, 10, twistCallback);

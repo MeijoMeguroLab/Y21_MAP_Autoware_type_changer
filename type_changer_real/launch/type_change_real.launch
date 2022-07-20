@@ -6,6 +6,7 @@
   <arg name="sub_twist_topic_name" default="/can_twist"/>
   <arg name="sub_imu_topic_name" default="/imu/data_raw"/>
   <arg name="reverse_imu" default="false"/>
+  <arg name="velocity_scale_factor" default="1.0"/>
 
   <remap from="sub_gnss_topic_name" to="/navsat/fix" />
 
@@ -20,6 +21,7 @@
   <param name="pub_twist_topic_name" value="$(arg pub_twist_topic_name)"/>
   <param name="pub_imu_topic_name" value="$(arg pub_imu_topic_name)"/>
   <param name="reverse_imu" value="$(arg reverse_imu)"/>
+  <param name="velocity_scale_factor" value="$(arg velocity_scale_factor)"/>
 
   <node pkg="type_changer_real" name="type_changer_real" type="type_changer_real"/>
   <node pkg="topic_tools" type="relay" name="gnss_relay" args="sub_gnss_topic_name /sensing/gnss/nav_sat_fix" />
