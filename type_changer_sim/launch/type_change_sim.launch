@@ -2,7 +2,7 @@
 
 <launch>
 
-  <arg name="sub_lidar_topic_name" default="/velodyne_packets"/>
+  <arg name="sub_lidar_topic_name" default="/points_raw"/>
 
   <arg name="pub_lidar_topic_name" default="/sensing/lidar/top/pointcloud_raw_ex"/>
   <param name="sub_lidar_topic_name" value="$(arg sub_lidar_topic_name)"/>
